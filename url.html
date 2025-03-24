@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Código QR de URL</title>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 200px;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #enlace-container {
+            margin-top: 10px;
+        }
+
+        #enlace {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #555;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-button">Regresar a Inicio</a>
+        <h1>Generador de Código QR de URL</h1>
+
+        <label for="url">Ingresa la URL:</label>
+        <input type="text" id="url" placeholder="Ej: https://www.ejemplo.com o ejemplo.com">
+        <button onclick="generarQR()">Generar Código QR</button>
+
+        <div id="resultado">
+            <h2>Código QR:</h2>
+            <div id="qrcode"></div>
+            <div id="enlace-container">
+                <h2>Enlace:</h2>
+                <a href="#" id="enlace" target="_blank"></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generarQR() {
+            let url = document.getElementById("url").value;
+
+            // Validación y corrección de URL
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                url = "https://" + url;
+            }
+
+            document.getElementById("url").value = url; // Actualizar el campo de entrada con la URL completa
+
+            const qrcodeDiv = document.getElementById("qrcode");
+            qrcodeDiv.innerHTML = "";
+
+            const qrcode = new QRCode(qrcodeDiv, {
+                text: url,
+                width: 128,
+                height: 128
+            });
+
+            // Visualización del enlace
+            const enlace = document.getElementById("enlace");
+            enlace.href = url;
+            enlace.textContent = url;
+        }
+    </script>
+
+</body>
+</html>
